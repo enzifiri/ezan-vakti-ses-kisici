@@ -128,6 +128,7 @@ async function schedule() {
 
 // ---------- Ses kontrolü ----------
 
+// Dönüş: kısılan ses/video öğesi sayısı; sekmeye eklenemezse null.
 async function injectFade(tabId, action, fadeMs, mode) {
   const run = async (target) => {
     const results = await chrome.scripting.executeScript({ target, func: fadeMedia, args: [action, fadeMs, mode] });
@@ -143,9 +144,8 @@ async function injectFade(tabId, action, fadeMs, mode) {
     try {
       return await run({ tabId });
     } catch (mainErr) {
-      // chrome:// sayfaları, Web Mağazası vb. enjeksiyona izin vermez; sekme susturma yine çalışır
-      console.warn('Ezan Vakti Ses Kapatıcı: sekmeye eklenemedi', tabId, err.message, mainErr.message);
-      return 0;
+      // Site izni yok (manifest'teki müzik siteleri dışı) ya da chrome:// sayfası
+      return null;
     }
   }
 }
@@ -156,10 +156,7 @@ async function beginFadeOut(ev, fadeMs) {
   const active = { ...ev, mode: settings.mode, fadedTabs: [], mutedTabs: [] };
   await setActive(active);
 
-  for (const tab of tabs) {
-    await injectFade(tab.id, 'out', fadeMs, settings.mode);
-    active.fadedTabs.push(tab.id);
-  }
+  for (const tab of tabs) await fadeOrMute(tab, active, fadeMs);
   await setActive(active);
 
   const name = PRAYERS.find((p) => p.key === ev.prayer)?.name || '';
@@ -178,6 +175,17 @@ async function muteTab(tab, active) {
     await chrome.tabs.update(tab.id, { muted: true });
     if (!active.mutedTabs.includes(tab.id)) active.mutedTabs.push(tab.id);
   } catch {}
+}
+
+// Yavaşça kısılabiliyorsa kıs; izin yoksa ya da sayfada kısılacak ses öğesi yoksa
+// (Web Audio vb.) ezanı beklemeden hemen sessize al.
+async function fadeOrMute(tab, active, fadeMs) {
+  const count = await injectFade(tab.id, 'out', fadeMs, active.mode);
+  if (count > 0) {
+    if (!active.fadedTabs.includes(tab.id)) active.fadedTabs.push(tab.id);
+  } else {
+    await muteTab(tab, active);
+  }
 }
 
 // Ezan başladığında: kısılamayan sesler (Web Audio vb.) için sekmeyi de sessize al
@@ -205,8 +213,7 @@ async function restore() {
     } catch {}
   }
   const fadeMs = settings.fadeInSec * 1000;
-  const tabIds = new Set([...active.fadedTabs, ...active.mutedTabs]);
-  await Promise.all([...tabIds].map((id) => injectFade(id, 'in', fadeMs, active.mode)));
+  await Promise.all(active.fadedTabs.map((id) => injectFade(id, 'in', fadeMs, active.mode)));
   chrome.notifications.clear(`ezan-${active.startAt}`);
 }
 
@@ -240,8 +247,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (Date.now() >= active.startAt) {
     await muteTab(tab, active);
   } else {
-    await injectFade(tabId, 'out', active.startAt - Date.now(), active.mode);
-    if (!active.fadedTabs.includes(tabId)) active.fadedTabs.push(tabId);
+    await fadeOrMute(tab, active, active.startAt - Date.now());
   }
   await setActive(active);
 });

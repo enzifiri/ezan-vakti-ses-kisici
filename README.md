@@ -42,7 +42,7 @@ Gizlilik politikası: https://enzifiri.github.io/ezan-vakti-ses-kisici/gizlilik.
 
 | Zaman | Ne olur |
 |---|---|
-| Ezandan *N* sn önce | Ses çalan sekmelerdeki `<audio>/<video>` öğelerinin sesi kısılır (fade) |
+| Ezandan *N* sn önce | Bilinen müzik/video sitelerinde (YouTube, Spotify, Netflix…) ses yavaşça kısılır; diğer sitelerde sekme hemen sessize alınır |
 | Ezan anı | Ses çalan sekmeler ayrıca sessize alınır (Web Audio kullanan siteler için yedek) |
 | Ezan süresi sonunda | Eklentinin sessize aldığı sekmeler açılır, ses yumuşakça eski seviyesine çıkar |
 

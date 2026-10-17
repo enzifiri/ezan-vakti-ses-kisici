@@ -22,4 +22,9 @@ label select, label input { width: 100%; color: var(--text); font-size: 14px; }
 .prayers input[type="number"] { width: 80px; }
 .prayers input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
 
-#sourceStatus.ok, #locationStatus.ok { color: var(--accent); }
+.check { display: flex; gap: 10px; align-items: flex-start; color: var(--text); font-size: 14px; cursor: pointer; }
+.check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent); flex: none; }
+.check > span { display: grid; gap: 2px; }
+.check .muted { font-size: 12.5px; }
+
+#allSitesStatus.ok, #sourceStatus.ok, #locationStatus.ok { color: var(--accent); }

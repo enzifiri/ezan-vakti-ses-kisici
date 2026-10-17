@@ -1,16 +1,39 @@
 {
   "manifest_version": 3,
   "name": "Ezan Vakti Ses Kapatıcı – Ezanda müziği otomatik kapar",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Ezan vaktinde tarayıcıdaki müziği yumuşakça kısar, ezan bitince geri açar. Diyanet vakitleri, hesap gerekmez.",
   "permissions": [
     "storage",
     "alarms",
-    "tabs",
     "scripting",
     "notifications"
   ],
   "host_permissions": [
+    "https://ezanvakti.emushaf.net/*",
+    "https://ezanvakti.imsakiyem.com/*",
+    "https://namazvakti.mtopal.dev/*",
+    "https://*.youtube.com/*",
+    "https://open.spotify.com/*",
+    "https://soundcloud.com/*",
+    "https://music.apple.com/*",
+    "https://*.deezer.com/*",
+    "https://fizy.com/*",
+    "https://muud.com.tr/*",
+    "https://music.amazon.com.tr/*",
+    "https://music.amazon.com/*",
+    "https://listen.tidal.com/*",
+    "https://www.twitch.tv/*",
+    "https://kick.com/*",
+    "https://www.netflix.com/*",
+    "https://www.primevideo.com/*",
+    "https://www.disneyplus.com/*",
+    "https://*.puhutv.com/*",
+    "https://*.exxen.com/*",
+    "https://*.tabii.com/*",
+    "https://*.hbomax.com/*"
+  ],
+  "optional_host_permissions": [
     "<all_urls>"
   ],
   "background": {

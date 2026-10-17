@@ -137,6 +137,28 @@ $('preferredSource').addEventListener('change', async (e) => {
   }
 });
 
+// İsteğe bağlı izin: yalnızca kullanıcı isterse, tıklama anında istenir
+const ALL_SITES = { origins: ['<all_urls>'] };
+
+async function renderAllSites() {
+  $('allSites').checked = await chrome.permissions.contains(ALL_SITES);
+}
+
+$('allSites').addEventListener('change', async (e) => {
+  try {
+    if (e.target.checked) {
+      const granted = await chrome.permissions.request(ALL_SITES);
+      setMsg($('allSitesStatus'), granted ? 'Tüm sitelerde ses yavaşça kısılacak.' : 'İzin verilmedi.', granted ? 'ok' : 'muted');
+    } else {
+      await chrome.permissions.remove(ALL_SITES);
+      setMsg($('allSitesStatus'), 'Bilinen siteler dışında ses doğrudan kapatılacak.', 'muted');
+    }
+  } catch (err) {
+    setMsg($('allSitesStatus'), err.message, 'error');
+  }
+  renderAllSites();
+});
+
 $('state').addEventListener('change', (e) => {
   if (e.target.value) loadCities(e.target.value);
 });
@@ -145,5 +167,6 @@ $('city').addEventListener('change', saveLocation);
 (async () => {
   await refresh();
   renderBehaviour();
+  renderAllSites();
   await loadStates();
 })();
