@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ezan Vakti Ses Kısıcı · Ayarlar</title>
+  <link rel="stylesheet" href="../ui/common.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <h1>Ezan Vakti Ses Kısıcı</h1>
+    <p class="muted">Ezan vakitlerinde tarayıcıda çalan sesi yumuşakça kısar, ezan bitince geri açar.</p>
+
+    <section class="card" id="locationCard">
+      <h2>1. Konum</h2>
+      <div class="row">
+        <label>İl
+          <select id="state" disabled><option>Yükleniyor…</option></select>
+        </label>
+        <label>İlçe
+          <select id="city" disabled></select>
+        </label>
+      </div>
+      <div id="locationStatus" class="small"></div>
+    </section>
+
+    <section class="card">
+      <h2>2. Davranış</h2>
+      <div class="grid">
+        <label>Ezanda
+          <select id="mode">
+            <option value="mute">Sesi kıs ve sustur</option>
+            <option value="pause">Sesi kıs ve duraklat</option>
+          </select>
+        </label>
+        <label>Kısma süresi (sn, ezandan önce)
+          <input id="fadeOutSec" type="number" min="0" max="60" step="1">
+        </label>
+        <label>Açılma süresi (sn)
+          <input id="fadeInSec" type="number" min="0" max="30" step="1">
+        </label>
+      </div>
+
+      <table class="prayers">
+        <thead><tr><th>Vakit</th><th>Aktif</th><th>Ezan süresi (dk)</th></tr></thead>
+        <tbody id="prayerRows"></tbody>
+      </table>
+      <div class="row end">
+        <span id="saveStatus" class="small muted"></span>
+        <button class="primary" id="save">Kaydet</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Vakit kaynağı</h2>
+      <p class="muted small">
+        Tüm kaynaklar Diyanet vakitlerini ücretsiz ve hesapsız verir. Yılın tamamı bir kez indirilir;
+        bir kaynak çalışmazsa eklenti sıradakine geçer. Genelde değiştirmeniz gerekmez.
+      </p>
+      <div class="row">
+        <label>Kaynak
+          <select id="preferredSource"></select>
+        </label>
+      </div>
+      <p class="small">Son kullanılan: <strong id="sourceLabel">…</strong></p>
+      <div id="sourceStatus" class="small"></div>
+    </section>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

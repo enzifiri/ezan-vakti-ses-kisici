@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ezan Vakti Ses Kısıcı Gizlilik Politikası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&family=Noto+Serif:wght@600;700&family=Noto+Sans+Mono:wght@400&display=swap">
+<style>
+  /* Layout: tek sütun belge, sağda dar bir "özet" bandı yok; başta kısa özet kutusu, sonra numarasız bölümler */
+  :root {
+    --bg: #fbfcfb;
+    --surface: #eef3f1;
+    --fg: #1b2421;
+    --muted: #5b6a65;
+    --rule: #d6dfdb;
+    --accent: #1f6f5c;
+    --font-display: "Noto Serif", Georgia, "Times New Roman", serif;
+    --font-body: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "Noto Sans Mono", ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121816; --surface: #1b2421; --fg: #e3ebe8; --muted: #9db0a9; --rule: #2c3833; --accent: #5cc1a4;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121816; --surface: #1b2421; --fg: #e3ebe8; --muted: #9db0a9; --rule: #2c3833; --accent: #5cc1a4;
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.65 var(--font-body);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  main { max-width: 68ch; margin: 0 auto; padding-block: 48px 72px; display: grid; gap: 36px; }
+  header { display: grid; gap: 10px; }
+  .eyebrow { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  h1, h2 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.25; }
+  h1 { font-size: clamp(28px, 5vw, 38px); }
+  h2 { font-size: 21px; }
+  p, ul { margin: 0; }
+  ul { padding-left: 1.2em; display: grid; gap: 6px; }
+  section { display: grid; gap: 12px; min-width: 0; }
+  .meta { color: var(--muted); font-size: 14px; }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  code { font-family: var(--font-mono); font-size: .88em; background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+
+  .summary { background: var(--surface); border-radius: 10px; padding: 18px 20px; display: grid; gap: 8px; }
+  .summary strong { font-family: var(--font-display); font-size: 17px; }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 10px 9px 0; border-bottom: 1px solid var(--rule); }
+  th { font-size: 13px; color: var(--muted); font-weight: 600; letter-spacing: .02em; }
+  td:first-child { white-space: nowrap; padding-right: 16px; }
+
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+  #en { font-size: 15px; }
+</style>
+</head>
+<body>
+
+<main>
+  <header>
+    <div class="eyebrow">Chrome eklentisi</div>
+    <h1>Ezan Vakti Ses Kısıcı Gizlilik Politikası</h1>
+    <p class="meta">Son güncelleme: 18 Ekim 2026 · <a href="#en">English summary</a> · <a href="https://github.com/enzifiri/ezan-vakti-ses-kisici">Kaynak kod</a></p>
+  </header>
+
+  <div class="summary">
+    <strong>Kısaca</strong>
+    <p>Eklenti hesap istemez, kişisel bilgi toplamaz ve hiçbir veriyi satmaz. Seçtiğiniz il ve ilçe yalnızca namaz vakitlerini almak için kullanılır. Ayarlarınız ve vakitler sadece sizin bilgisayarınızda saklanır.</p>
+  </div>
+
+  <section>
+    <h2>Eklenti ne yapar?</h2>
+    <p>Ezan Vakti Ses Kısıcı, seçtiğiniz konumun ezan vaktinden kısa süre önce Chrome sekmelerinde çalan sesi yavaşça kısar, ezan bitince yeniden açar. Bunun için yalnızca aşağıda anlatılan bilgileri kullanır.</p>
+  </section>
+
+  <section>
+    <h2>Bilgisayarınızda saklanan bilgiler</h2>
+    <p>Aşağıdakiler Chrome'un eklenti deposunda, yalnızca sizin cihazınızda tutulur. Geliştiriciye veya başka bir sunucuya gönderilmez.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Bilgi</th><th>Ne için</th></tr></thead>
+        <tbody>
+          <tr><td>İl ve ilçe seçimi</td><td>Hangi şehrin namaz vakitlerinin kullanılacağını bilmek için.</td></tr>
+          <tr><td>Ayarlar</td><td>Açık/kapalı durumu, kısma ve açılma süreleri, her vaktin ezan süresi, seçilen vakit kaynağı.</td></tr>
+          <tr><td>Namaz vakitleri</td><td>İnternet olmadan da çalışabilmek için bir yıla kadar vakit saklanır.</td></tr>
+          <tr><td>Geçici ezan durumu</td><td>Ezan sırasında hangi sekmelerin kısıldığını hatırlayıp sonra yalnızca onları geri açmak için. Tarayıcı kapanınca silinir.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Dış servislere gönderilen bilgiler</h2>
+    <p>Namaz vakitleri Diyanet İşleri Başkanlığı verisini sunan şu ücretsiz servislerden alınır. Bu servislere yalnızca seçtiğiniz il veya ilçenin numarası gönderilir (örneğin İstanbul merkez için <code>9541</code>).</p>
+    <ul>
+      <li><a href="https://ezanvakti.emushaf.net" target="_blank" rel="noopener">ezanvakti.emushaf.net</a></li>
+      <li><a href="https://ezanvakti.imsakiyem.com" target="_blank" rel="noopener">ezanvakti.imsakiyem.com</a></li>
+      <li><a href="https://namazvakti.mtopal.dev" target="_blank" rel="noopener">namazvakti.mtopal.dev</a></li>
+    </ul>
+    <p>Her internet isteğinde olduğu gibi bu servisler IP adresinizi görebilir. Bu bilgilerin nasıl kullanıldığı ilgili servisin kendi politikasına tabidir. Eklenti bu servislere adınızı, e-postanızı, gezinme geçmişinizi veya başka bir kişisel bilgi göndermez.</p>
+  </section>
+
+  <section>
+    <h2>Ziyaret ettiğiniz sayfalar</h2>
+    <p>Eklenti yalnızca o anda ses çıkaran sekmelerde ve yalnızca ezan vaktinde çalışır. Bu sekmelerdeki ses ve video öğelerinin ses seviyesini değiştirir, gerekirse sekmeyi sessize alır.</p>
+    <ul>
+      <li>Sayfa içeriğini, yazdıklarınızı veya formları okumaz.</li>
+      <li>Gezinme geçmişinizi kaydetmez.</li>
+      <li>Sayfalardan hiçbir bilgiyi bir yere göndermez.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>İzinler neden gerekli?</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>İzin</th><th>Neden</th></tr></thead>
+        <tbody>
+          <tr><td><code>alarms</code></td><td>Ezan vakitlerinde eklentiyi zamanında çalıştırmak.</td></tr>
+          <tr><td><code>storage</code></td><td>Ayarları ve vakitleri bilgisayarınızda saklamak.</td></tr>
+          <tr><td><code>tabs</code></td><td>Ses çalan sekmeleri bulmak, sessize almak ve sonra geri açmak.</td></tr>
+          <tr><td><code>scripting</code></td><td>Ses çalan sekmede sesi yavaşça kısıp açmak.</td></tr>
+          <tr><td><code>notifications</code></td><td>Sesin ezan nedeniyle kısıldığını size bildirmek.</td></tr>
+          <tr><td>Tüm siteler</td><td>Müzik herhangi bir sitede çalabileceği için sesi kısma işleminin o sitede de çalışabilmesi. Ayrıca vakit servislerine bağlanmak.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Paylaşım, satış ve reklam</h2>
+    <p>Hiçbir veri satılmaz, kiralanmaz veya reklam için kullanılmaz. Eklentide reklam, analiz veya takip aracı yoktur. Veriler eklentinin amacı dışında kullanılmaz ve kredi değerlendirmesi gibi işler için kullanılmaz.</p>
+  </section>
+
+  <section>
+    <h2>Verilerinizi silme</h2>
+    <p>Eklentiyi Chrome'dan kaldırdığınızda bilgisayarınızda saklanan tüm ayarlar ve vakitler Chrome tarafından otomatik olarak silinir. Konumunuzu ayarlar sayfasından istediğiniz zaman değiştirebilirsiniz.</p>
+  </section>
+
+  <section>
+    <h2>Değişiklikler ve iletişim</h2>
+    <p>Bu politika değişirse güncel hali bu sayfada, yeni tarihle yayınlanır. Sorularınız için Chrome Web Mağazası'ndaki eklenti sayfasının <strong>Destek</strong> bölümünü kullanabilir ya da <a href="https://github.com/enzifiri/ezan-vakti-ses-kisici/issues">GitHub üzerinden konu açabilirsiniz</a>.</p>
+  </section>
+
+  <hr>
+
+  <section id="en" lang="en">
+    <h2>English summary</h2>
+    <p>Ezan Vakti Ses Kısıcı lowers the sound of Chrome tabs during the Islamic call to prayer and restores it afterwards. It needs no account and collects no personal information. Your selected province and district, your settings and the downloaded prayer times are stored only on your device. To fetch prayer times, only the numeric ID of the selected district is sent to ezanvakti.emushaf.net, ezanvakti.imsakiyem.com or namazvakti.mtopal.dev. The extension only acts on tabs that are playing audio, only adjusts their volume, and never reads page content or browsing history. No data is sold, shared for advertising, or used for unrelated purposes. Uninstalling the extension deletes all stored data.</p>
+  </section>
+</main>
+</body>
+</html>

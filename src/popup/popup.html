@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <title>Ezan Vakti Ses Kısıcı</title>
+  <link rel="stylesheet" href="../ui/common.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Ezan Vakti Ses Kısıcı</h1>
+      <div id="location" class="muted"></div>
+    </div>
+    <label class="switch" title="Otomatik kısmayı aç/kapat">
+      <input type="checkbox" id="enabled">
+      <span></span>
+    </label>
+  </header>
+
+  <div id="setup" class="warn hidden">
+    Başlamak için <a href="#" id="setupLink">ayarlardan</a> il ve ilçenizi seçin.
+  </div>
+
+  <section id="activeBox" class="active hidden">
+    <div><strong id="activeTitle"></strong></div>
+    <div class="muted" id="activeUntil"></div>
+    <button id="skip">Sesi şimdi aç</button>
+  </section>
+
+  <section id="nextBox" class="next hidden">
+    <div class="muted">Sıradaki ezan</div>
+    <div class="next-row">
+      <strong id="nextName"></strong>
+      <span id="nextCountdown" class="countdown"></span>
+    </div>
+  </section>
+
+  <ul id="times" class="times"></ul>
+
+  <div id="error" class="error hidden"></div>
+
+  <footer>
+    <button id="test">Test et</button>
+    <button id="options">Ayarlar</button>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

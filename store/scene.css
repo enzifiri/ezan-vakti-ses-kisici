@@ -1,0 +1,61 @@
+/* Mağaza görselleri için ortak stil. Tek tema: koyu yeşil zemin, beyaz yazı, eklentinin kendi açık arayüzü. */
+:root {
+  --ground: #17463b;
+  --ground-2: #1f5a4c;
+  --ink: #ffffff;
+  --ink-soft: #cfe3dc;
+  --accent: #7fd8bd;
+  --window: #f5f6f4;
+  --window-ink: #1d2321;
+  --window-muted: #66706c;
+  --font: "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  width: var(--w); height: var(--h); overflow: hidden;
+  background: var(--ground); color: var(--ink); font-family: var(--font);
+  position: relative;
+}
+/* Arka plandaki ince hilal deseni */
+body::before {
+  content: ""; position: absolute; inset: 0; opacity: .07;
+  background-image: radial-gradient(circle at 30% 30%, transparent 9px, var(--ink) 10px, var(--ink) 11px, transparent 12px);
+  background-size: 64px 64px;
+}
+.stage { position: relative; height: 100%; display: grid; align-items: center; }
+
+.caption { display: grid; gap: 18px; }
+.caption .tag { font-size: 18px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.caption h1 { margin: 0; font-size: 52px; line-height: 1.12; font-weight: 700; text-wrap: balance; }
+.caption p { margin: 0; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 30ch; }
+
+/* Sahte tarayıcı penceresi */
+.browser {
+  background: var(--window); color: var(--window-ink); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.35); position: relative;
+}
+.browser .bar { height: 44px; background: #e3e7e4; display: flex; align-items: center; gap: 8px; padding: 0 16px; }
+.browser .dot { width: 12px; height: 12px; border-radius: 50%; background: #c4cbc7; }
+.browser .url { margin-left: 14px; flex: 1; height: 26px; border-radius: 13px; background: #fff; font-size: 13px; color: var(--window-muted); display: flex; align-items: center; padding: 0 14px; }
+.browser .ext { width: 26px; height: 26px; border-radius: 6px; background: #1f6f5c url("../icons/icon32.png") center / 20px no-repeat; }
+
+/* Müzik çalar sayfası (marka içermeyen genel bir çalar) */
+.player { padding: 34px 36px; display: grid; grid-template-columns: 180px 1fr; gap: 28px; align-items: center; }
+.cover { width: 180px; height: 180px; border-radius: 12px; background: linear-gradient(135deg, #2b6f8f, #7a4fa0); }
+.track { display: grid; gap: 8px; }
+.track .now { font-size: 13px; color: var(--window-muted); text-transform: uppercase; letter-spacing: .06em; }
+.track .title { font-size: 26px; font-weight: 700; }
+.track .artist { font-size: 16px; color: var(--window-muted); }
+.progress { height: 6px; border-radius: 3px; background: #d8ddda; margin-top: 14px; position: relative; }
+.progress::after { content: ""; position: absolute; inset: 0 62% 0 0; border-radius: 3px; background: #2b6f8f; }
+.volume { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--window-muted); margin-top: 6px; }
+.volume .meter { width: 140px; height: 6px; border-radius: 3px; background: #d8ddda; position: relative; }
+.volume .meter i { position: absolute; inset: 0 auto 0 0; border-radius: 3px; background: #2b6f8f; }
+
+/* Eklenti popup'ı: gerçek popup.html dosyası iframe içinde */
+.popup {
+  position: absolute; border: 0; background: #fff; border-radius: 12px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.28); transform-origin: top right;
+}

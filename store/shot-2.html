@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="scene.css">
+  <style>
+    :root { --w: 1280px; --h: 800px; }
+    .stage { grid-template-columns: 1fr 360px; gap: 60px; padding: 0 80px; }
+    .left { display: grid; gap: 40px; }
+    .chart { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); border-radius: 16px; padding: 26px 28px 18px; }
+    .chart svg { display: block; width: 100%; height: auto; }
+    .chart text { font-family: var(--font); fill: var(--ink-soft); font-size: 15px; }
+    .chart .strong { fill: var(--ink); font-weight: 600; }
+    .popup-wrap { position: relative; height: 470px; }
+    .popup { position: absolute; top: 0; right: 0; width: 300px; height: 392px; transform: scale(1.2); }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="left">
+      <div class="caption">
+        <div class="tag">Yumuşak geçiş</div>
+        <h1>Ses birden kesilmez, 15 saniyede yavaşça kısılır</h1>
+      </div>
+      <div class="chart">
+        <!-- x: 12:53:30 → 12:57:30 ölçekli değil; kısma ve açılma bölümleri okunaklı olsun diye genişletildi -->
+        <svg viewBox="0 0 640 230" role="img" aria-label="Ses seviyesi zaman çizelgesi">
+          <line x1="40" y1="170" x2="620" y2="170" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+          <path d="M40 40 L120 40 C150 40 175 165 200 170 L470 170 C490 168 510 42 540 40 L620 40" fill="none" stroke="#7fd8bd" stroke-width="5" stroke-linecap="round"/>
+          <path d="M40 40 L120 40 C150 40 175 165 200 170 L470 170 C490 168 510 42 540 40 L620 40 L620 170 L40 170 Z" fill="rgba(127,216,189,.12)"/>
+          <line x1="120" y1="28" x2="120" y2="182" stroke="rgba(255,255,255,.35)" stroke-dasharray="4 5"/>
+          <line x1="200" y1="28" x2="200" y2="182" stroke="rgba(255,255,255,.35)" stroke-dasharray="4 5"/>
+          <line x1="540" y1="28" x2="540" y2="182" stroke="rgba(255,255,255,.35)" stroke-dasharray="4 5"/>
+          <text x="120" y="204" text-anchor="middle" class="strong">12:53:45</text>
+          <text x="120" y="224" text-anchor="middle">kısılmaya başlar</text>
+          <text x="200" y="204" text-anchor="start" class="strong">12:54:00</text>
+          <text x="200" y="224" text-anchor="start">öğle ezanı, sekme susturulur</text>
+          <text x="540" y="204" text-anchor="middle" class="strong">12:57:00</text>
+          <text x="540" y="224" text-anchor="middle">ses geri açılır</text>
+          <text x="335" y="155" text-anchor="middle">ezan boyunca sessiz</text>
+        </svg>
+      </div>
+    </div>
+    <div class="popup-wrap"><iframe class="popup" src="popup-active.html"></iframe></div>
+  </div>
+</body>
+</html>

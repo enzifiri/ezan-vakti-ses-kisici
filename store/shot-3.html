@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="scene.css">
+  <style>
+    :root { --w: 1280px; --h: 800px; }
+    .stage { grid-template-columns: 400px 1fr; gap: 50px; padding: 0 60px 0 80px; }
+    .browser { height: 680px; }
+    /* Pencere 690x636 içerik alanı; %90 ölçekte Konum ve Davranış kartları okunaklı sığar */
+    .browser iframe { border: 0; width: 767px; height: 707px; transform: scale(.9); transform-origin: top left; background: #fff; }
+    .points { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; font-size: 20px; color: var(--ink-soft); }
+    .points li { display: flex; gap: 12px; align-items: baseline; }
+    .points li::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); transform: translateY(-3px); }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="caption">
+      <div class="tag">Size göre ayarlanır</div>
+      <h1>İlinizi seçin, gerisi otomatik</h1>
+      <ul class="points">
+        <li>Diyanet vakitleri, hesap gerekmez</li>
+        <li>Her vakit için ayrı ezan süresi</li>
+        <li>Sesi kısıp susturma ya da duraklatma</li>
+        <li>Yılın vakitleri bir kez indirilir</li>
+      </ul>
+    </div>
+    <div class="browser">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">Ezan Vakti Ses Kısıcı · Ayarlar</span></div>
+      <iframe src="options-mock.html"></iframe>
+    </div>
+  </div>
+</body>
+</html>
