@@ -144,7 +144,7 @@ async function injectFade(tabId, action, fadeMs, mode) {
       return await run({ tabId });
     } catch (mainErr) {
       // chrome:// sayfaları, Web Mağazası vb. enjeksiyona izin vermez; sekme susturma yine çalışır
-      console.warn('Ezan Vakti Ses Kısıcı: sekmeye eklenemedi', tabId, err.message, mainErr.message);
+      console.warn('Ezan Vakti Ses Kapatıcı: sekmeye eklenemedi', tabId, err.message, mainErr.message);
       return 0;
     }
   }

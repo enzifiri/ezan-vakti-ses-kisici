@@ -1,4 +1,4 @@
-# Ezan Vakti Ses Kısıcı (Chrome eklentisi)
+# Ezan Vakti Ses Kapatıcı (Chrome eklentisi)
 
 Ezan vakitlerinde tarayıcıda çalan sesi (YouTube, Spotify Web, radyo siteleri…) ezandan
 15 saniye önce yumuşakça kısar, ezan bitince yeniden açar. Vakitler Diyanet verisidir:
