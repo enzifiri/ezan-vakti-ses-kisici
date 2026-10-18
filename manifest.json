@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Ezan Vakti Ses Kapatıcı – Ezanda müziği otomatik kapar",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Ezan vaktinde tarayıcıdaki müziği yumuşakça kısar, ezan bitince geri açar. Diyanet vakitleri, hesap gerekmez.",
   "permissions": [
     "storage",

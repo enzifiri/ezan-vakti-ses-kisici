@@ -6,6 +6,9 @@ import { updateTimes, dateKey } from './timesCache.js';
 const EVENT_PREFIX = 'ezan|';
 const DAILY_ALARM = 'daily-refresh';
 const RETRY_ALARM = 'retry-fetch';
+// Dakikada bir: süresi dolmuş ezanı kapatır, uyku yüzünden kaçan alarmları yakalar.
+// Windows'ta Chrome alarmları uyku süresini saymayabildiği için tek başına güvenilmez.
+const WATCHDOG_ALARM = 'watchdog';
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 // ---------- Yardımcılar ----------
@@ -85,10 +88,16 @@ async function clearEventAlarms() {
 
 const alarmName = (phase, ev) => `${EVENT_PREFIX}${phase}|${ev.prayer}|${ev.startAt}|${ev.endAt}`;
 
+// Süren ezanın alarmlarını yeniden kur; hangi yoldan gelinirse gelinsin ses açılmadan kalmasın
+function armActive(active) {
+  if (active.startAt > Date.now()) chrome.alarms.create(alarmName('start', active), { when: active.startAt });
+  chrome.alarms.create(alarmName('end', active), { when: Math.max(active.endAt, Date.now() + 1000) });
+}
+
 async function schedule() {
-  await clearEventAlarms();
   const settings = await getSettings();
   if (!settings.enabled || !settings.cityId) {
+    await clearEventAlarms();
     await setStatus({ nextEvent: null });
     return;
   }
@@ -97,12 +106,14 @@ async function schedule() {
   try {
     days = await ensureTimes(getSourceChain(settings), settings.cityId);
   } catch {
-    await setStatus({ nextEvent: null });
+    // Vakitler okunamadı: mevcut alarmlara dokunma, yeniden deneme alarmı kuruldu
     return;
   }
 
+  await clearEventAlarms();
   const now = Date.now();
   const active = await getActive();
+  if (active) armActive(active);
   const { skippedStartAt } = await chrome.storage.session.get('skippedStartAt');
   const events = buildEvents(days, settings).filter(
     (ev) => ev.endAt > now && ev.startAt !== skippedStartAt,
@@ -113,12 +124,11 @@ async function schedule() {
       chrome.alarms.create(alarmName('out', ev), { when: ev.outAt });
       chrome.alarms.create(alarmName('start', ev), { when: ev.startAt });
       chrome.alarms.create(alarmName('end', ev), { when: ev.endAt });
-    } else if (!active || active.startAt === ev.startAt) {
-      // Tarayıcı ezan sırasında açıldıysa ya da ayar değiştiyse: hemen kıs
-      if (!active) await beginFadeOut(ev, Math.max(0, ev.startAt - now));
-      if (ev.startAt > now) chrome.alarms.create(alarmName('start', ev), { when: ev.startAt });
-      else await muteAudibleTabs();
-      chrome.alarms.create(alarmName('end', ev), { when: ev.endAt });
+    } else if (!active) {
+      // Tarayıcı ezan sırasında açıldıysa ya da alarm uyku yüzünden kaçtıysa: hemen kıs
+      await beginFadeOut(ev, Math.max(0, ev.startAt - now));
+      if (ev.startAt <= now) await muteAudibleTabs();
+      armActive(ev);
     }
   }
 
@@ -201,6 +211,7 @@ async function restore() {
   const active = await getActive();
   if (!active) return;
   await setActive(null);
+  await chrome.alarms.clear(alarmName('end', active));
   const settings = await getSettings();
 
   for (const tabId of active.mutedTabs) {
@@ -217,9 +228,30 @@ async function restore() {
   chrome.notifications.clear(`ezan-${active.startAt}`);
 }
 
+// Süresi dolmuş ezanı bitir; uyku yüzünden kaçan bir kısma anı varsa zamanlamayı yeniden kur
+async function watchdog() {
+  const active = await getActive();
+  if (active) {
+    if (Date.now() >= active.endAt) {
+      await restore();
+      await schedule();
+    }
+    return;
+  }
+  const { status } = await chrome.storage.local.get('status');
+  const next = status?.nextEvent;
+  // 30 sn pay: normal "out" alarmıyla aynı anda çalışıp kısmayı iki kez başlatmasın
+  if (next && Date.now() >= next.outAt + 30 * 1000) await schedule();
+}
+
+function ensureWatchdog() {
+  chrome.alarms.create(WATCHDOG_ALARM, { periodInMinutes: 1 });
+}
+
 // ---------- Olaylar ----------
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
+  if (alarm.name === WATCHDOG_ALARM) return watchdog();
   if (alarm.name === DAILY_ALARM || alarm.name === RETRY_ALARM) return schedule();
   if (!alarm.name.startsWith(EVENT_PREFIX)) return;
 
@@ -261,12 +293,14 @@ async function setupDailyAlarm() {
 
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   await setupDailyAlarm();
+  ensureWatchdog();
   if (reason === 'install') chrome.runtime.openOptionsPage();
   await schedule();
 });
 
 chrome.runtime.onStartup.addListener(async () => {
   await setupDailyAlarm();
+  ensureWatchdog();
   await schedule();
 });
 
@@ -274,6 +308,7 @@ chrome.runtime.onStartup.addListener(async () => {
 
 const handlers = {
   async getStatus() {
+    await watchdog();
     const settings = await getSettings();
     const { status, times } = await chrome.storage.local.get(['status', 'times']);
     const today = times?.cityId === settings.cityId ? times.days[dateKey(new Date())] : null;
@@ -336,3 +371,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     .catch((err) => sendResponse({ ok: false, error: err.message || String(err) }));
   return true;
 });
+
+// Servis her uyandığında: kontrol alarmı yoksa kur, takılı kalmış ezanı bitir
+chrome.alarms.get(WATCHDOG_ALARM).then((alarm) => alarm || ensureWatchdog());
+watchdog().catch(() => {});
